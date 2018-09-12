@@ -1,0 +1,35 @@
+import {API_SERVER} from 'constants/index'
+export const get = (url, params) => {
+  for (let name in params)
+    if (params[name] === '')
+      delete params[name]
+if (params)
+    url += '?' + Object.keys(params).reduce(function(a, k) {
+      a.push(k + '=' + encodeURIComponent(params[k]));
+      return a
+    }, []).join('&')
+  return fetch(API_SERVER + url).then((response) => response.json())
+}
+export const post = (url, params) => {
+  return fetch(API_SERVER + url, {
+    method: "POST", // *GET, POST, PUT, DELETE, etc.
+    mode: "cors", // no-cors, cors, *same-origin
+    cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+    credentials: "same-origin", // include, same-origin, *omit
+    headers: {
+      "Content-Type": "application/json; charset=utf-8",
+      // "Content-Type": "application/x-www-form-urlencoded",
+    },
+    redirect: "follow", // manual, *follow, error
+    referrer: "no-referrer", // no-referrer, *client
+    body: JSON.stringify(params), // body data type must match "Content-Type" header
+  }).then(function(response) {
+    return response.json();
+  })
+}
+
+export const del = (url) => {
+  return fetch(API_SERVER + url, {method: 'delete'}).then(function(response) {
+    return response.json();
+  })
+}
