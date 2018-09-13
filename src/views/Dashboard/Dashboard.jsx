@@ -1,10 +1,16 @@
 import React from "react";
 import PropTypes from "prop-types";
+import {connect} from  'react-redux'
 // react plugin for creating vector maps
 
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
 import Icon from "@material-ui/core/Icon";
+
+
+//Actions
+import {getStockList} from 'actions/stocks'
+import {getCryptoPairs} from 'actions/crypto'
 
 // @material-ui/icons
 // import ContentCopy from "@material-ui/icons/ContentCopy";
@@ -37,7 +43,12 @@ class Dashboard extends React.Component {
   handleChangeIndex = index => {
     this.setState({ value: index });
   };
+  componentDidMount(){
+    this.props.cryptoFetch()
+    this.props.stocksFetch()
+  }
   render() {
+    console.log(this.props.stocksList)
     const { classes } = this.props;
     return (
       <div>
@@ -87,16 +98,16 @@ class Dashboard extends React.Component {
         </GridContainer>
         <GridContainer>
           <GridItem xs={12} sm={12} md={3}>
-            <StockCard random/>
+            <StockCard list={this.props.stocksList} random/>
           </GridItem>
           <GridItem xs={12} sm={12} md={3}>
-            <StockCard random/>
+            <StockCard list={this.props.stocksList} random/>
           </GridItem>
           <GridItem xs={12} sm={12} md={3}>
-            <CryptoCard random/>
+            <CryptoCard list={this.props.cryptoList} random/>
           </GridItem>
           <GridItem xs={12} sm={12} md={3}>
-            <CryptoCard random/>
+            <CryptoCard list={this.props.cryptoList} random/>
           </GridItem>
         </GridContainer>
       </div>
@@ -107,5 +118,14 @@ class Dashboard extends React.Component {
 Dashboard.propTypes = {
   classes: PropTypes.object.isRequired
 };
-
-export default withStyles(dashboardStyle)(Dashboard);
+const state = (state,props) => {
+  return {
+    cryptoList:state.crypto.list,
+    stocksList:state.stocks.list,
+  }
+}
+const dispatch=(dispatch)=>({
+  cryptoFetch:(filter)=>dispatch(getCryptoPairs(filter)),
+  stocksFetch:(filter)=>dispatch(getStockList(filter))
+})
+export default withStyles(dashboardStyle)(connect(state,dispatch)(Dashboard))

@@ -5,14 +5,10 @@ import {connect} from 'react-redux'
 import Button from "components/CustomButtons/Button.jsx";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import {getStockList} from 'actions/stocks'
-import Card from 'components/_SymbolCard/Card'
-import CardHeader from 'components/_SymbolCard/CardHeader'
 import GridItem from "components/Grid/GridItem.jsx";
 import GridContainer from "components/Grid/GridContainer.jsx";
-import Image from "components/_Image/Image.jsx";
-import Line from 'components/_Charts/LinePopover'
 
-
+import StockCard from './Card'
 import Loader from 'components/_Loader/Circle'
 class ListStocks extends React.Component {
   constructor(props){
@@ -27,7 +23,6 @@ class ListStocks extends React.Component {
       ...this.state,
       page:this.state.page+1
     }
-    console.log(newState)
     this.props.fetch(newState)
     this.setState(newState)
   }
@@ -41,10 +36,7 @@ class ListStocks extends React.Component {
       <GridContainer  justify="center">{
         Object.keys(list).map((e,i)=>(
             <GridItem key={i} xs={12} sm={6} md={3}>
-              <Card>
-                <CardHeader left={<Image src={'stocks/'+list[e].logo} width={80} alt={e}/> } right={<h5>{e}</h5>}/>
-                <Line data={list[e].dailyHistory}/>
-              </Card>
+              <StockCard list={list} name={e}/>
             </GridItem>)
           )
       }</GridContainer>

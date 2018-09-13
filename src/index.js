@@ -4,7 +4,8 @@ import { createBrowserHistory } from "history";
 import { Router, Route, Switch } from "react-router-dom";
 import "assets/scss/material-dashboard-pro-react.css?v=1.3.0";
 import { Provider } from "react-redux";
-
+import "core-js/modules/es7.promise.finally";
+import "babel-polyfill";
 import indexRoutes from "routes/index.jsx";
 
 import store from "store/index";

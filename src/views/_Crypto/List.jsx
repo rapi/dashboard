@@ -5,10 +5,10 @@ import {connect} from 'react-redux'
 import Button from "components/CustomButtons/Button.jsx";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import {getCryptoPairs} from 'actions/crypto'
-import Card from 'components/_Crypto/Card'
 import GridItem from "components/Grid/GridItem.jsx";
 import GridContainer from "components/Grid/GridContainer.jsx";
 
+import CryptoCard from './Card'
 
 import Loader from 'components/_Loader/Circle'
 class ListSymbols extends React.Component {
@@ -24,7 +24,6 @@ class ListSymbols extends React.Component {
       ...this.state,
       page:this.state.page+1
     }
-    console.log(newState)
     this.props.fetch(newState)
     this.setState(newState)
   }
@@ -37,8 +36,9 @@ class ListSymbols extends React.Component {
     return <div>
       <GridContainer  justify="center">{
         Object.keys(list).map((e,i)=>(
+
             <GridItem key={i} xs={12} sm={6} md={3}>
-              <Card  data={list[e]}/>
+              <CryptoCard list={list} name={e}/>
             </GridItem>)
           )
       }</GridContainer>

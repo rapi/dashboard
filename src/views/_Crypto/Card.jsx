@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from "prop-types";
-import {connect} from  'react-redux'
 
 import cryptoCardStyle from "assets/jss/_views/stockCard";
 
@@ -13,24 +12,25 @@ import CardHeader from "components/Card/CardHeader.jsx";
 import CardIcon from "components/Card/CardIcon.jsx";
 import CardFooter from "components/_Card/CardFooter.jsx";
 import FlipImage from "components/_Image/FlipImage"
-//Actions
-import {getCryptoPairs} from 'actions/crypto'
 
 //Chart
-import Line from 'components/_Charts/LinePopover'
+import Line from 'components/_Charts/Line'
 class CryptoCard extends React.Component {
   state={
     element:false
   }
+  constructor(props){
+    super(props);
+    this.state.element=props.name
+  }
   componentDidMount(){
-    this.props.fetch({})
-      .then(()=>this.fetchRandom(this.props.list))
-    setInterval(()=>this.fetchRandom(this.props.list),4000)
+    if(this.props.random)
+      setInterval(()=>this.fetchRandom(this.props.list),4000)
   }
   shouldComponentUpdate(newProps,nextState) {
     if(this.state.element!== nextState.element)
       return true
-    // this.fetchRandom(newProps.list)
+    this.fetchRandom(newProps.list)
     return false;
   }
   fetchRandom(list){
@@ -67,12 +67,5 @@ CryptoCard.propTypes = {
   classes: PropTypes.object.isRequired,
   random: PropTypes.bool,
 }
-const state = (state,props) => {
-  return {
-    list:state.crypto.list
-  }
-}
-const dispatch=(dispatch)=>({
-  fetch:(filter)=>dispatch(getCryptoPairs(filter))
-})
-export default withStyles(cryptoCardStyle)(connect(state,dispatch)(CryptoCard))
+
+export default withStyles(cryptoCardStyle)(CryptoCard)

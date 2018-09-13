@@ -62,9 +62,14 @@ export default class Base extends React.Component{
     this.insertElements()
   }
   setWidth=()=>{
+    let parent;
+    if(this.node.parentNode)
+      parent=this.node.parentNode
+    else
+      parent=this.node.node
     this.setState({
       ...this.state,
-      width:this.node.parentNode.offsetWidth-this.state.margin.left-this.state.margin.right
+      width:parent.offsetWidth-this.state.margin.left-this.state.margin.right
     })
   }
   componentDidUpdate=()=>{

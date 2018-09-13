@@ -2,7 +2,7 @@ import {line} from 'd3-shape'
 import Base from './Base'
 import PropTypes from 'prop-types';
 import withStyles from "@material-ui/core/styles/withStyles";
-import style from 'assets/jss/Charts/Base.jsx'
+import style from 'assets/jss/_components/chartsBase.jsx'
 
 class Line extends Base{
   elements=[
