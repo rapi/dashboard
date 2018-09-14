@@ -35,20 +35,35 @@ import CryptoCard from 'views/_Crypto/Card'
 
 class Dashboard extends React.Component {
   state = {
-    value: 0
+    crypto: [],
+    stocks: [],
   };
-  handleChange = (event, value) => {
-    this.setState({ value });
-  };
-  handleChangeIndex = index => {
-    this.setState({ value: index });
-  };
+  timers={}
+  componentWillUnmount(){
+    for(let i in this.timers)
+      clearTimeout(this.timers[i])
+  }
   componentDidMount(){
     this.props.cryptoFetch()
+      .then(()=>this.fetchRandom('crypto'))
     this.props.stocksFetch()
+      .then(()=>this.fetchRandom('stocks'))
+
+  }
+  random=(list)=>Object.keys(list)[parseInt(Math.random() * Object.keys(list).length,0)]
+  fetchRandom(name){
+    this.setState({
+      ...this.state,
+      [name]:[
+        this.random(this.props[name+'List']),
+        this.random(this.props[name+'List']),
+      ]
+    })
+    this.timers[name]=setTimeout(()=>this.fetchRandom(name),(parseInt((Math.random() *5),0)+5)*1000)
+
   }
   render() {
-    console.log(this.props.stocksList)
+    // console.log(this.state)
     const { classes } = this.props;
     return (
       <div>
@@ -98,16 +113,16 @@ class Dashboard extends React.Component {
         </GridContainer>
         <GridContainer>
           <GridItem xs={12} sm={12} md={3}>
-            <StockCard list={this.props.stocksList} random/>
+            <StockCard name={this.state.stocks[0]} />
           </GridItem>
           <GridItem xs={12} sm={12} md={3}>
-            <StockCard list={this.props.stocksList} random/>
+            <StockCard name={this.state.stocks[1]} />
           </GridItem>
           <GridItem xs={12} sm={12} md={3}>
-            <CryptoCard list={this.props.cryptoList} random/>
+            <CryptoCard name={this.state.crypto[0]} />
           </GridItem>
           <GridItem xs={12} sm={12} md={3}>
-            <CryptoCard list={this.props.cryptoList} random/>
+            <CryptoCard name={this.state.crypto[1]} />
           </GridItem>
         </GridContainer>
       </div>

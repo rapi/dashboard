@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from "prop-types";
-
+import {connect} from 'react-redux'
 import cryptoCardStyle from "assets/jss/_views/stockCard";
 
 // @material-ui/core components
@@ -16,32 +16,13 @@ import FlipImage from "components/_Image/FlipImage"
 //Chart
 import Line from 'components/_Charts/Line'
 class CryptoCard extends React.Component {
-  state={
-    element:false
-  }
-  constructor(props){
-    super(props);
-    this.state.element=props.name
-  }
-  componentDidMount(){
-    if(this.props.random)
-      setInterval(()=>this.fetchRandom(this.props.list),4000)
-  }
-  shouldComponentUpdate(newProps,nextState) {
-    if(this.state.element!== nextState.element)
-      return true
-    this.fetchRandom(newProps.list)
-    return false;
-  }
-  fetchRandom(list){
-    let i = Object.keys(list)[parseInt(Math.random() * Object.keys(list).length,0)]
-    this.setState({...this.state,element: i})
-  }
+
   render() {
-    if(!this.state.element)return 'Loading'
-    const name=this.props.list[this.state.element].from+' '+this.props.list[this.state.element].to,
-          logo=this.props.list[this.state.element].logo,
-          data=this.props.list[this.state.element].dailyHistory,
+    let el=this.props.element
+    if(!el)return 'Loading'
+    const name=el.from+' '+el.to,
+          logo=el.logo,
+          data=el.dailyHistory,
           price=data.slice(-1)[0].close
     const {
       classes
@@ -67,5 +48,9 @@ CryptoCard.propTypes = {
   classes: PropTypes.object.isRequired,
   random: PropTypes.bool,
 }
-
-export default withStyles(cryptoCardStyle)(CryptoCard)
+const state=(state,props)=>{
+  return {
+  element:state.crypto.list[props.name]
+}}
+const dispatch=(dispatch)=>({})
+export default withStyles(cryptoCardStyle)(connect(state,dispatch)(CryptoCard))

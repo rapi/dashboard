@@ -21,6 +21,7 @@ import appStyle from "assets/jss/material-dashboard-pro-react/layouts/dashboardS
 import image from "assets/img/sidebar-2.jpg";
 import logo from "assets/img/logo-white.svg";
 
+import LiveChat from 'views/_LiveChat/Widget' 
 const switchRoutes = (
   <Switch>
     {dashboardRoutes.map((prop, key) => {
@@ -128,6 +129,8 @@ class Dashboard extends React.Component {
           )}
           {this.getRoute() ? <Footer fluid /> : null}
         </div>
+        <LiveChat/>
+
       </div>
     );
   }

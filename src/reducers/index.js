@@ -5,7 +5,9 @@ import stocks from './stocks'
 import symbols from './symbols'
 import loading from './loading'
 import notifications from './notifications'
+import user from './user'
 const rootReducer = combineReducers({
+  user,
   stocks,
   crypto,
   symbols,

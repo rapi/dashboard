@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from "prop-types";
-
-import stockCardStyle from "assets/jss/_views/stockCard";
+import {connect} from 'react-redux'
+import stocksCardStyle from "assets/jss/_views/stockCard";
 
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
@@ -15,37 +15,14 @@ import FlipImage from "components/_Image/FlipImage"
 
 //Chart
 import Line from 'components/_Charts/Line'
-class StockCard extends React.Component {
-  state={
-    element:false
-  }
-  constructor(props){
-    super(props);
-    this.state.element=props.name
-
-  }
-  componentDidMount(){
-    if(this.props.random)
-      setInterval(()=>this.fetchRandom(this.props.list),4000)
-  }
-  shouldComponentUpdate(newProps,nextState) {
-    console.log(newProps.list.length,this.props.list.length)
-    if(this.state.element!== nextState.element)
-      return true
-    this.fetchRandom(newProps.list)
-    return false;
-  }
-  fetchRandom(list){
-    let i = Object.keys(list)[parseInt(Math.random() * Object.keys(list).length,0)]
-    console.log(i)
-    // this.setState({...this.state,element: i})
-  }
+class StocksCard extends React.Component {
 
   render() {
-    if(!this.state.element)return 'Loading'
-    const name=this.props.list[this.state.element].name,
-          logo=this.props.list[this.state.element].logo,
-          data=this.props.list[this.state.element].dailyHistory,
+    let el=this.props.element
+    if(!el)return 'Loading'
+    const name=el.name,
+          logo=el.logo,
+          data=el.dailyHistory,
           price=data.slice(-1)[0].close
     const {
       classes
@@ -67,9 +44,13 @@ class StockCard extends React.Component {
     </Card>
   }
 }
-StockCard.propTypes = {
+StocksCard.propTypes = {
   classes: PropTypes.object.isRequired,
   random: PropTypes.bool,
 }
-
-export default withStyles(stockCardStyle)(StockCard)
+const state=(state,props)=>{
+  return {
+  element:state.stocks.list[props.name]
+}}
+const dispatch=(dispatch)=>({})
+export default withStyles(stocksCardStyle)(connect(state,dispatch)(StocksCard))
