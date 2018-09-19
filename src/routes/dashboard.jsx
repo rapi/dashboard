@@ -23,7 +23,7 @@ var dashRoutes = [
     },
       {
         path: "/stocks",
-        name: "Crypto",
+        name: "Stocks",
         icon: Store,
         component: Stocks
       },

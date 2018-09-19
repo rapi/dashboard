@@ -13,7 +13,7 @@ export function connect(){
   chanel.onmessage=function(msg){
     msg=JSON.parse(msg.data)
     for(let h of hooks)
-      if(msg.module===msg.module)
+      if(msg.module===h.module)
         h.fn(msg.data)
   }
   chanel.onopen=function(){
