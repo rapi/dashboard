@@ -1,7 +1,7 @@
 import {send,hook} from './ws'
 let _onMessage=()=>{}
 export function connect(){
-  console.log('subscribe')
+  // console.log('subscribe')
   send('livechat',{action:'enter'})
   hook('livechat',(msg)=>{
     receiveMessage(msg.text)

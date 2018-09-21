@@ -14,6 +14,9 @@ import CardFooter from "components/_Card/CardFooter.jsx";
 import FlipImage from "components/_Image/FlipImage"
 
 //Chart
+import Chart from 'components/_Charts/Chart'
+import GridY from 'components/_Charts/GridY'
+import GridX from 'components/_Charts/GridX'
 import Line from 'components/_Charts/Line'
 class StocksCard extends React.Component {
 
@@ -39,11 +42,21 @@ class StocksCard extends React.Component {
         </h3>
       </CardHeader>
       <CardFooter chart>
-        <Line data={data}/>
+        <Chart color='success' data={data} marginLeft={30}>
+          <GridY/>
+          <GridX/>
+          <Line/>
+        </Chart>
       </CardFooter>
     </Card>
   }
 }
+// primary
+// info
+// success
+// warning
+// danger
+// rose
 StocksCard.propTypes = {
   classes: PropTypes.object.isRequired,
   random: PropTypes.bool,

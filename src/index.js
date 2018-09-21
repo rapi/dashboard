@@ -8,13 +8,14 @@ import "core-js/modules/es7.promise.finally";
 import "babel-polyfill";
 import indexRoutes from "routes/index.jsx";
 import { PersistGate } from 'redux-persist/integration/react'
-
 import store,{persistor} from "store/index";
+var Promise = require('es6-promise').Promise;
+Promise.use=true
+
 const hist = createBrowserHistory();
 ReactDOM.render(
   <Provider store={store}>
     <PersistGate loading={null} persistor={persistor}>
-
       <Router history={hist}>
         <Switch>
           {indexRoutes.map((prop, key) => {
@@ -23,7 +24,6 @@ ReactDOM.render(
         </Switch>
       </Router>
     </PersistGate>
-
   </Provider>,
   document.getElementById("root")
 );
